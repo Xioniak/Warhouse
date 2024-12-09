@@ -1,17 +1,88 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import items.Brand;
+import items.Instalator;
+import items.Item;
+import items.WeaponType;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
+    public static ArrayList<Item> items = Instalator.items;
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        new Instalator();
+        Scanner input = new Scanner(System.in);
+        try {
+            ekran1(input);
+        } catch (Exception e) {
+            ekran1(input);
         }
     }
+
+    public static void ekran1(Scanner input) {
+        System.out.println("|WEAPON SHOP|");
+        System.out.println("Select option:");
+        System.out.println("[1] Shop");
+        System.out.println("[2] Gunsmith");
+        System.out.println("[0] Exit");
+
+        int a = input.nextInt();
+        input.nextLine();
+
+        switch (a) {
+            case 1:
+                ekran2(input);
+                break;
+            case 2:
+                System.out.println("When can you bring your weapon: 09.02.2024 ");
+                ekran1(input);
+                break;
+            case 0:
+                System.out.println("Thank you for coming, see you later");
+                System.exit(0);
+        }
+    }
+    public static void ekran2(Scanner input) {
+        System.out.println("[1] Weapons");
+        System.out.println("[2] Attachments");
+        System.out.println("[0] Back");
+        int a2 = input.nextInt();
+        switch (a2) {
+            case 1:
+                int num = 1;
+                int num2 = num;
+                for (WeaponType type : WeaponType.values()) {
+                    System.out.println("["+num+"] "+ type);
+                    num++;
+                }
+                System.out.println("[0] Back");
+                int a3 = input.nextInt();
+                if (a3 == 0) {
+                    ekran2(input);
+                }
+                WeaponType type2 = WeaponType.values()[a3-num2];
+                int num3 = 1;
+                int num4 = num3;
+                ArrayList<Item> temp = new ArrayList<>();
+                for (Item i : items) {
+                    if (i.getWeaponType().equals(type2)) {
+                        System.out.println("["+num3+"] Marka: "+i.getBrand() +" | Model: "+ i.getModel() +" | kaliber: "+i.getKaliber()+" | Price: " + i.getPrice() + " $" );
+                        temp.add(i);
+                        num3++;
+                    }
+                }
+                System.out.println("[0] Back");
+                int a4 = input.nextInt();
+                if (a4 == 0) {
+                    ekran2(input);
+                } else {
+                    Item item = temp.get(a4-num4);
+                    System.out.println(item);
+                    ekran2(input);
+                }
+            case 0:
+                ekran1(input);
+        }
+
+    }
+
 }
