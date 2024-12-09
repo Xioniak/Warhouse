@@ -1,19 +1,16 @@
 package items;
 
-
-
-
 public class Item {
     int price;
-    String model, kaliber;
+    String model, caliber;
     items.WeaponType weaponType;
     Brand brand;
-    public Item(items.WeaponType weaponType, Brand brand, String model, String kaliber, int price) {
+    public Item(items.WeaponType weaponType, Brand brand, String model, String caliber, int price) {
         this.weaponType = weaponType;
         this.price = price;
         this.brand = brand;
         this.model = model;
-        this.kaliber = kaliber;
+        this.caliber = caliber;
         items.Instalator.items.add(this);
     }
 
@@ -34,8 +31,8 @@ public class Item {
         return model;
     }
 
-    public String getKaliber() {
-        return kaliber;
+    public String getCaliber() {
+        return caliber;
     }
 
 }

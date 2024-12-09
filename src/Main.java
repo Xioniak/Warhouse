@@ -2,11 +2,15 @@ import items.Brand;
 import items.Instalator;
 import items.Item;
 import items.WeaponType;
+import items.pistol;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
+
     public static ArrayList<Item> items = Instalator.items;
     public static void main(String[] args) {
         new Instalator();
@@ -19,11 +23,14 @@ public class Main {
     }
 
     public static void ekran1(Scanner input) {
+        pistol glock = new pistol("17", "Glock", "9", 17, 3500.50, false);
+
         System.out.println("|WEAPON SHOP|");
         System.out.println("Select option:");
         System.out.println("[1] Shop");
         System.out.println("[2] Gunsmith");
         System.out.println("[0] Exit");
+        System.out.println(glock.toString());
 
         int a = input.nextInt();
         input.nextLine();
@@ -65,7 +72,7 @@ public class Main {
                 ArrayList<Item> temp = new ArrayList<>();
                 for (Item i : items) {
                     if (i.getWeaponType().equals(type2)) {
-                        System.out.println("["+num3+"] Marka: "+i.getBrand() +" | Model: "+ i.getModel() +" | kaliber: "+i.getKaliber()+" | Price: " + i.getPrice() + " $" );
+                        System.out.println("["+num3+"] Marka: "+i.getBrand() +" | Model: "+ i.getModel() +" | kaliber: "+i.getCaliber()+" | Price: " + i.getPrice() + " $" );
                         temp.add(i);
                         num3++;
                     }
