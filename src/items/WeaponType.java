@@ -1,9 +1,9 @@
 package items;
 
 public enum WeaponType {
-    Pistols,
-    PMs,
+    pistol,
+    PM,
     Assault_Rifle,
     Sniper_Rifle,
-    DMRs
+    DMR
 }
