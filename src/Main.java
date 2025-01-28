@@ -3,16 +3,23 @@ import items.Instalator;
 import items.Item;
 import items.WeaponType;
 import items.pistol;
+import items.Utils;
 
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
-
     public static ArrayList<Item> items = Instalator.items;
+
+    /**
+     * Metoda główna programu.
+     * @param args argumenty wiersza poleceń
+     */
     public static void main(String[] args) {
+        for (int i = 0; i < Utils.getPistolsData().size(); i++) {
+            System.out.println(Utils.getPistolsData().get(i));
+        }
         new Instalator();
         Scanner input = new Scanner(System.in);
         try {
@@ -22,6 +29,10 @@ public class Main {
         }
     }
 
+    /**
+     * Wyświetla pierwszy ekran menu.
+     * @param input obiekt Scanner do odczytu danych wejściowych
+     */
     public static void ekran1(Scanner input) {
         pistol glock = new pistol("17", "Glock", "9", 17, 3500.50, false);
 
@@ -40,7 +51,7 @@ public class Main {
                 ekran2(input);
                 break;
             case 2:
-                System.out.println("When can you bring your weapon: 09.02.2024 ");
+                System.out.println("When can you bring your weapon: 09.02.2025");
                 ekran1(input);
                 break;
             case 0:
@@ -48,6 +59,11 @@ public class Main {
                 System.exit(0);
         }
     }
+
+    /**
+     * Wyświetla drugi ekran menu.
+     * @param input obiekt Scanner do odczytu danych wejściowych
+     */
     public static void ekran2(Scanner input) {
         System.out.println("[1] Weapons");
         System.out.println("[2] Attachments");
@@ -89,7 +105,5 @@ public class Main {
             case 0:
                 ekran1(input);
         }
-
     }
-
 }
