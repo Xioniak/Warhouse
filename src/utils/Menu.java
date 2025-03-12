@@ -25,7 +25,7 @@ public class Menu {
             System.out.println("--------| " + Title + " |--------");
             System.out.println("Select an option:");
             Options.forEach((key, name) -> System.out.println("[" + key + "] " + name));
-            System.out.println("-----------------------------");
+            System.out.println("----------------------------");
 
             String choice = scanner.nextLine();
             if (choice.equals("0")) {
