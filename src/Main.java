@@ -17,9 +17,9 @@ public class Main {
      * @param args argumenty wiersza poleceń
      */
     public static void main(String[] args) {
-//        for (int i = 0; i < Utils.getPistolsData().size(); i++) {
-//            System.out.println(Utils.getPistolsData().get(i));
-//        }
+        for (int i = 0; i < Utils.getPistolsData().size(); i++) {
+            System.out.println(Utils.getPistolsData().get(i));
+        }
         Scanner input = new Scanner(System.in);
         try {
             rnlScreen(input);
@@ -34,10 +34,44 @@ public class Main {
      */
     public static void rnlScreen(Scanner input) {
         Menu rnlMenu = new Menu("WARHOUSE");
-        rnlMenu.addOption("1", "Log In", () -> System.out.println("Log In"));
-        rnlMenu.addOption("2", "Register", () -> System.out.println("Register"));
+        rnlMenu.addOption("1", "Log In", () -> loginScreen(input));
+        rnlMenu.addOption("2", "Register", () -> registerScreen(input));
         rnlMenu.addOption("0", "Exit", () -> System.exit(0));
         rnlMenu.start();
+    }
+
+    public static void registerScreen(Scanner input) {
+        Utils.titleDivider("REGISTER");
+        System.out.println("Login: ");
+        String login = input.nextLine();
+        System.out.println("Password: ");
+        String password_org = input.nextLine();
+        System.out.println("Repeat password: ");
+        String password_rep = input.nextLine();
+        if (password_org.equals(password_rep)) {
+            if (Utils.registerUser(login, password_org)) {
+                System.out.println("Welcome " + login);
+                mainScreen(input);
+            } else {
+                System.out.println("User already exists!");
+            }
+        } else {
+            System.out.println("Passwords do not match");
+        }
+    }
+
+    public static void loginScreen(Scanner input) {
+        Utils.titleDivider("LOG IN");
+        System.out.println("Login: ");
+        String login = input.nextLine();
+        System.out.println("Password: ");
+        String password = input.nextLine();
+        if (Utils.loginUser(login, password)) {
+            System.out.println("Welcome " + login);
+            mainScreen(input);
+        } else {
+            System.out.println("Invalid login or password");
+        }
     }
 
     public static void mainScreen(Scanner input) {
