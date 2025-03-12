@@ -75,10 +75,7 @@ public class Main {
     }
 
     public static void mainScreen(Scanner input) {
-        // pistol glock = new pistol("17", "Glock", "9", 17, 3500.50, false);
-
-        // Tworzenie i konfiguracja klasy menu.
-        // Menu - obiekt klasy Menu
+        // Tworzenie i konfiguracja klasy Menu.
         // Menu.addOption - dodanie opcji do menu, zawiera trzy parametry, pierwszy to klucz, drugi to nazwa opcji, trzeci to akcja do wykonania jeśli opcja zostanie wybrana
         // Menu.start - uruchomienie (wyświetlenie) menu
         // Opcja 0 zawsze zamyka program, jest ona opcją "schowaną" czyli nie widać jej na liście opcji
@@ -87,6 +84,7 @@ public class Main {
 
         mainMenu.addOption("1", "Shop", () -> shopScreen(input));
         mainMenu.addOption("2", "Gunsmith", () -> System.out.println("When can you bring your weapon: 09.02.2025"));
+        mainMenu.addOption("3", "Transactions", () -> System.out.println("Transactions"));
         mainMenu.addOption("0", "Exit", () -> System.exit(0));
 
         mainMenu.start();
