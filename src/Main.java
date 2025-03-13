@@ -6,17 +6,23 @@ import items.Utils;
 import utils.Menu;
 
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static ArrayList<Item> items = Instalator.items;
+    public static String globalLogin;
+
+
 
     /**
      * Metoda główna programu.
      * @param args argumenty wiersza poleceń
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         for (int i = 0; i < Utils.getPistolsData().size(); i++) {
             System.out.println(Utils.getPistolsData().get(i));
         }
@@ -51,6 +57,7 @@ public class Main {
         if (password_org.equals(password_rep)) {
             if (Utils.registerUser(login, password_org)) {
                 System.out.println("Welcome " + login);
+                globalLogin = login;
                 mainScreen(input);
             } else {
                 System.out.println("User already exists!");
@@ -68,6 +75,7 @@ public class Main {
         String password = input.nextLine();
         if (Utils.loginUser(login, password)) {
             System.out.println("Welcome " + login);
+            globalLogin = login;
             mainScreen(input);
         } else {
             System.out.println("Invalid login or password");
@@ -84,14 +92,21 @@ public class Main {
 
         mainMenu.addOption("1", "Shop", () -> shopScreen(input));
         mainMenu.addOption("2", "Gunsmith", () -> System.out.println("When can you bring your weapon: 09.02.2025"));
-        mainMenu.addOption("3", "Transactions", () -> System.out.println("Transactions"));
+        mainMenu.addOption("3", "My Transactions", () -> transactionsScreen(input));
         mainMenu.addOption("0", "Exit", () -> System.exit(0));
 
         mainMenu.start();
     }
 
+    public static void transactionsScreen(Scanner input) {
+        Menu transactionsMenu = new Menu("TRANSACTIONS");
+        transactionsMenu.addOption("1", "List transactions", () -> Utils.displayUserTransactions(globalLogin));
+        transactionsMenu.addOption("2", "Back", () -> mainScreen(input));
+        transactionsMenu.start();
+    }
+
     /**
-     * Wyświetla drugi ekran menu.
+     * Wyświetla ekran menu sklepu.
      * @param input obiekt Scanner do odczytu danych wejściowych
      */
     public static void shopScreen(Scanner input) {
