@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2025 at 06:29 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Generation Time: Mar 25, 2025 at 09:38 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `pistol`
+-- Table structure for table `pistol`
 --
 
 CREATE TABLE `pistol` (
@@ -44,7 +44,31 @@ INSERT INTO `pistol` (`id`, `name`, `hasSilencer`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `user`
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(20) NOT NULL,
+  `brand` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `price` float NOT NULL,
+  `amount` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `brand`, `name`, `price`, `amount`) VALUES
+(1, 'Tangodown', 'vertical fore grip(RIS)', 75, 2500),
+(2, 'EOTech', 'HWS HOLO SIGHT EXPS 3-2', 1300, 500),
+(3, 'Olight', 'Flashlight ProTac Railmount 1 Long Gun', 260, 5000),
+(4, 'Magpul', 'PMAG gen 3 (30rnds | Black | ar-15)', 25, 30000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -64,7 +88,7 @@ INSERT INTO `user` (`id`, `login`, `pass_hash`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `user_transactions`
+-- Table structure for table `user_transactions`
 --
 
 CREATE TABLE `user_transactions` (
@@ -83,23 +107,29 @@ INSERT INTO `user_transactions` (`id`, `user_id`, `payment_method`, `price`, `or
 (2, 2, 'blik', 549.99, '2025-03-13');
 
 --
--- Indeksy dla zrzutów tabel
+-- Indexes for dumped tables
 --
 
 --
--- Indeksy dla tabeli `pistol`
+-- Indexes for table `pistol`
 --
 ALTER TABLE `pistol`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `user`
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `user_transactions`
+-- Indexes for table `user_transactions`
 --
 ALTER TABLE `user_transactions`
   ADD PRIMARY KEY (`id`),
@@ -114,6 +144,12 @@ ALTER TABLE `user_transactions`
 --
 ALTER TABLE `pistol`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`
