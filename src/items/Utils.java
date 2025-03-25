@@ -9,28 +9,53 @@ import java.util.*;
 import java.util.Date;
 
 public class Utils {
-  /**
-   * Pobiera dane o pistoletach z bazy danych.
-   * @return lista danych o pistoletach
-   */
-  public static List<String> getPistolsData() {
-    List<String> pistolsData = new ArrayList<>();
-     try {
-       Connection conn = DatabaseConnection.getConnection();
 
-       Statement statement = conn.createStatement();
-       ResultSet dbPistolData = statement.executeQuery("SELECT * FROM pistol");
-       while (true) {
-         assert dbPistolData != null;
-         if (!dbPistolData.next()) break;
-         String name = dbPistolData.getString("name");
-         boolean hasSilencer = dbPistolData.getBoolean("hasSilencer");
-         pistolsData.add(name + " " + hasSilencer);
-       }
-       return pistolsData;
-     } catch (SQLException e) {
-       e.printStackTrace();
-     }
+  public static String getProducts() {
+    System.out.println("Brand | Model | Price | Amount");
+    Connection conn = DatabaseConnection.getConnection();
+
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet dbProducts = statement.executeQuery("SELECT name, brand, price, amount FROM products");
+      StringBuilder productsData = new StringBuilder();
+      while (true) {
+        assert dbProducts != null;
+        if (!dbProducts.next()) break;
+        String name = dbProducts.getString("name");
+        String brand = dbProducts.getString("brand");
+        String price = dbProducts.getString("price");
+        String amount = dbProducts.getString("amount");
+        productsData.append("- ").append(brand).append(" | ").append(name).append(" | ").append(price).append("$ | ").append(amount).append("pcs. \n");
+      }
+      return productsData.toString();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static String getWeapon() {
+    System.out.println("Brand | Model | Caliber | Price | Amount");
+    Connection conn = DatabaseConnection.getConnection();
+
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet dbWeapon = statement.executeQuery("SELECT brand, model, caliber, price, amount FROM weapons");
+      StringBuilder weaponData = new StringBuilder();
+      while (true) {
+        assert dbWeapon != null;
+        if (!dbWeapon.next()) break;
+        String brand = dbWeapon.getString("brand");
+        String model = dbWeapon.getString("model");
+        String caliber = dbWeapon.getString("caliber");
+        String price = dbWeapon.getString("price");
+        String amount = dbWeapon.getString("amount");
+        weaponData.append("- ").append(brand).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append("pcs. \n");
+      }
+      return weaponData.toString();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     return null;
   }
 

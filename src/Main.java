@@ -23,9 +23,6 @@ public class Main {
      * @param args argumenty wiersza poleceń
      */
     public static void main(String[] args) throws SQLException {
-        for (int i = 0; i < Utils.getPistolsData().size(); i++) {
-            System.out.println(Utils.getPistolsData().get(i));
-        }
         Scanner input = new Scanner(System.in);
         try {
             rnlScreen(input);
@@ -111,8 +108,8 @@ public class Main {
      */
     public static void shopScreen(Scanner input) {
         Menu shopMenu = new Menu("SHOP");
-        shopMenu.addOption("1", "Weapons", () -> System.out.println(Utils.getPistolsData()));
-        shopMenu.addOption("2", "Attachments", () -> System.out.println("Attachments"));
+        shopMenu.addOption("1", "Weapons", () -> System.out.println(Utils.getWeapon()));
+        shopMenu.addOption("2", "Attachments", () -> System.out.println(Utils.getProducts()));
         shopMenu.addOption("3", "Back", () -> mainScreen(input));
         shopMenu.start();
     }
