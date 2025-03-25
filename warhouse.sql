@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2025 at 09:38 PM
+-- Generation Time: Mar 25, 2025 at 11:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,26 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `warhouse`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pistol`
---
-
-CREATE TABLE `pistol` (
-  `id` int(5) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `hasSilencer` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pistol`
---
-
-INSERT INTO `pistol` (`id`, `name`, `hasSilencer`) VALUES
-(1, 'usp', 1),
-(2, 'glock18', 0);
 
 -- --------------------------------------------------------
 
@@ -106,15 +86,35 @@ CREATE TABLE `user_transactions` (
 INSERT INTO `user_transactions` (`id`, `user_id`, `payment_method`, `price`, `order_date`) VALUES
 (2, 2, 'blik', 549.99, '2025-03-13');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `weapons`
+--
+
+CREATE TABLE `weapons` (
+  `id` int(20) NOT NULL,
+  `brand` varchar(50) NOT NULL,
+  `model` varchar(80) NOT NULL,
+  `caliber` varchar(15) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `price` float NOT NULL,
+  `amount` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `weapons`
+--
+
+INSERT INTO `weapons` (`id`, `brand`, `model`, `caliber`, `type`, `price`, `amount`) VALUES
+(1, 'Glock', '17', '9x19mm', 'pistol', 800, 500),
+(2, 'Colt’s Manufacturing Company', 'M4', '5.56x45mm NATO', 'Carbine assault rifle', 1000, 150),
+(3, 'Fabrique Nationale de Herstal', 'Five-seveN', '5,7x28mm', 'pistol', 2500, 50),
+(4, 'Knights Armament Co.', 'MK110', '7,62x51mm NATO', 'designated marksman rifle', 12000, 20);
+
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `pistol`
---
-ALTER TABLE `pistol`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `products`
@@ -136,14 +136,14 @@ ALTER TABLE `user_transactions`
   ADD KEY `user_id` (`user_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indexes for table `weapons`
 --
+ALTER TABLE `weapons`
+  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for table `pistol`
+-- AUTO_INCREMENT for dumped tables
 --
-ALTER TABLE `pistol`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -162,6 +162,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `user_transactions`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `weapons`
+--
+ALTER TABLE `weapons`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
