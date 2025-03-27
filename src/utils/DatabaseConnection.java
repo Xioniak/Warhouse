@@ -1,5 +1,7 @@
 package utils;
 
+import items.Utils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -13,7 +15,7 @@ public class DatabaseConnection {
     if (conn == null) {
       try {
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Warhouse", "root", "");
-        System.out.println("Connected to database");
+        Utils.print("Connected to database");
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -25,7 +27,7 @@ public class DatabaseConnection {
     if (conn != null) {
       try {
         conn.close();
-        System.out.println("Connection closed");
+        Utils.print("Connection closed");
       } catch (Exception e) {
         e.printStackTrace();
       }

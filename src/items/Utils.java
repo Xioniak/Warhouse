@@ -2,16 +2,37 @@ package items;
 
 import utils.DatabaseConnection;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
 
 public class Utils {
+  public static String userLogin;
+
+  public static String getUserLogin() {
+    return userLogin;
+  }
+
+  public static void setUserLogin(String login) {
+    userLogin = login;
+  }
+
+  public static void print(String value) {
+    System.out.println(value);
+  }
 
   public static String getProducts() {
-    System.out.println("Brand | Model | Price | Amount");
+    Utils.print("Brand | Model | Price | Amount");
     Connection conn = DatabaseConnection.getConnection();
 
     try {
@@ -35,12 +56,12 @@ public class Utils {
   }
 
   public static String getWeapon() {
-    System.out.println("Brand | Model | Caliber | Price | Amount");
+    Utils.print("Brand | Model | Caliber | Price | Amount");
     Connection conn = DatabaseConnection.getConnection();
 
     try {
       Statement statement = conn.createStatement();
-      ResultSet dbWeapon = statement.executeQuery("SELECT brand, model, caliber, price, amount FROM weapons");
+      ResultSet dbWeapon = statement.executeQuery("SELECT brand, model, caliber, price, amount, type FROM weapons");
       StringBuilder weaponData = new StringBuilder();
       while (true) {
         assert dbWeapon != null;
@@ -50,7 +71,12 @@ public class Utils {
         String caliber = dbWeapon.getString("caliber");
         String price = dbWeapon.getString("price");
         String amount = dbWeapon.getString("amount");
-        weaponData.append("- ").append(brand).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append("pcs. \n");
+        String type = dbWeapon.getString("type");
+        if (type.equals("ICBM")) {
+          weaponData.append("- ").append(brand).append(" ").append(type).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append(" missile silos\n");
+        } else {
+          weaponData.append("- ").append(brand).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append("pcs.\n");
+        }
       }
       return weaponData.toString();
     } catch (SQLException e) {
@@ -84,6 +110,7 @@ public class Utils {
   }
 
   public static boolean loginUser(String username, String password) {
+    setUserLogin(username);
     try {
       Connection conn = DatabaseConnection.getConnection();
 
@@ -109,7 +136,7 @@ public class Utils {
   public static void displayUserTransactions(String username) {
     String transactions = getUserTransactions(username);
     titleDivider("TRANSACTIONS");
-    System.out.println(transactions != null ? transactions : "No transactions found");
+    Utils.print(transactions != null ? transactions : "No transactions found");
   }
 
   public static String getUserTransactions(String username) {
@@ -152,11 +179,11 @@ public class Utils {
   }
 
   public static void titleDivider(String title) {
-    System.out.println("--------| " + title + " |--------");
+    Utils.print("--------| " + title + " |--------");
   }
 
   public static void optionDivider() {
-      System.out.println("---------------------------");
+      Utils.print("---------------------------");
   }
 
   public static String toSHA256(String data) {

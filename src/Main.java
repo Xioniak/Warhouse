@@ -3,6 +3,7 @@ import items.Item;
 import items.WeaponType;
 import items.pistol;
 import items.Utils;
+import utils.ICBM;
 import utils.Menu;
 
 import java.awt.*;
@@ -15,8 +16,6 @@ import java.util.Scanner;
 public class Main {
     public static ArrayList<Item> items = Instalator.items;
     public static String globalLogin;
-
-
 
     /**
      * Metoda główna programu.
@@ -45,37 +44,37 @@ public class Main {
 
     public static void registerScreen(Scanner input) {
         Utils.titleDivider("REGISTER");
-        System.out.println("Login: ");
+        Utils.print("Login: ");
         String login = input.nextLine();
-        System.out.println("Password: ");
+        Utils.print("Password: ");
         String password_org = input.nextLine();
-        System.out.println("Repeat password: ");
+        Utils.print("Repeat password: ");
         String password_rep = input.nextLine();
         if (password_org.equals(password_rep)) {
             if (Utils.registerUser(login, password_org)) {
-                System.out.println("Welcome " + login);
+                Utils.print("Welcome " + login);
                 globalLogin = login;
                 mainScreen(input);
             } else {
-                System.out.println("User already exists!");
+                Utils.print("User already exists!");
             }
         } else {
-            System.out.println("Passwords do not match");
+            Utils.print("Passwords do not match");
         }
     }
 
     public static void loginScreen(Scanner input) {
         Utils.titleDivider("LOG IN");
-        System.out.println("Login: ");
+        Utils.print("Login: ");
         String login = input.nextLine();
-        System.out.println("Password: ");
+        Utils.print("Password: ");
         String password = input.nextLine();
         if (Utils.loginUser(login, password)) {
-            System.out.println("Welcome " + login);
+            Utils.print("Welcome " + login);
             globalLogin = login;
             mainScreen(input);
         } else {
-            System.out.println("Invalid login or password");
+            Utils.print("Invalid login or password");
         }
     }
 
@@ -88,7 +87,7 @@ public class Main {
         Menu mainMenu = new Menu("WARHOUSE");
 
         mainMenu.addOption("1", "Shop", () -> shopScreen(input));
-        mainMenu.addOption("2", "Gunsmith", () -> System.out.println("When can you bring your weapon: 09.02.2025"));
+        mainMenu.addOption("2", "Gunsmith", () -> Utils.print("When can you bring your weapon: 09.02.2025"));
         mainMenu.addOption("3", "My Transactions", () -> transactionsScreen(input));
         mainMenu.addOption("0", "Exit", () -> System.exit(0));
 
@@ -108,9 +107,10 @@ public class Main {
      */
     public static void shopScreen(Scanner input) {
         Menu shopMenu = new Menu("SHOP");
-        shopMenu.addOption("1", "Weapons", () -> System.out.println(Utils.getWeapon()));
-        shopMenu.addOption("2", "Attachments", () -> System.out.println(Utils.getProducts()));
-        shopMenu.addOption("3", "Back", () -> mainScreen(input));
+        shopMenu.addOption("1", "Weapons", () -> Utils.print(Utils.getWeapon()));
+        shopMenu.addOption("2", "ICBM Strikes", ICBM::launchICBM);
+        shopMenu.addOption("3", "Attachments", () -> Utils.print(Utils.getProducts()));
+        shopMenu.addOption("4", "Back", () -> mainScreen(input));
         shopMenu.start();
     }
 }

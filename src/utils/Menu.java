@@ -1,5 +1,7 @@
 package utils;
 
+import items.Utils;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,17 +24,17 @@ public class Menu {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("--------| " + Title + " |--------");
-            System.out.println("Select an option:");
-            Options.forEach((key, name) -> System.out.println("[" + key + "] " + name));
-            System.out.println("----------------------------");
+            Utils.print("--------| " + Title + " |--------");
+            Utils.print("Select an option:");
+            Options.forEach((key, name) -> Utils.print("[" + key + "] " + name));
+            Utils.print("----------------------------");
 
             String choice = scanner.nextLine();
             if (choice.equals("0")) {
                 System.exit(0);
             }
 
-            Actions.getOrDefault(choice, () -> System.out.println("Invalid option")).run();
+            Actions.getOrDefault(choice, () -> Utils.print("Invalid option")).run();
         }
     }
 }
