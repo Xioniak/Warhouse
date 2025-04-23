@@ -1,6 +1,7 @@
 package items;
 
 import utils.DatabaseConnection;
+import utils.TableFormatter;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,15 +10,29 @@ import java.util.*;
 import java.util.Date;
 
 public class Utils {
+  public static String userLogin;
+
+  public static String getUserLogin() {
+    return userLogin;
+  }
+
+  public static void setUserLogin(String login) {
+    userLogin = login;
+  }
+
+  public static void print(String value) {
+    System.out.println(value);
+  }
 
   public static String getProducts() {
-    System.out.println("Brand | Model | Price | Amount");
     Connection conn = DatabaseConnection.getConnection();
+
+    List<String> headers = List.of("Brand", "Name", "Price", "Amount");
+    List<List<String>> rows = new ArrayList<>();
 
     try {
       Statement statement = conn.createStatement();
       ResultSet dbProducts = statement.executeQuery("SELECT name, brand, price, amount FROM products");
-      StringBuilder productsData = new StringBuilder();
       while (true) {
         assert dbProducts != null;
         if (!dbProducts.next()) break;
@@ -25,9 +40,9 @@ public class Utils {
         String brand = dbProducts.getString("brand");
         String price = dbProducts.getString("price");
         String amount = dbProducts.getString("amount");
-        productsData.append("- ").append(brand).append(" | ").append(name).append(" | ").append(price).append("$ | ").append(amount).append("pcs. \n");
+        rows.add(List.of(brand, name, price, amount));
       }
-      return productsData.toString();
+      return TableFormatter.newTable(headers, rows);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -35,13 +50,13 @@ public class Utils {
   }
 
   public static String getWeapon() {
-    System.out.println("Brand | Model | Caliber | Price | Amount");
+    List<String> headers = List.of("Brand", "Model", "Caliber", "Type", "Price", "Amount");
+    List<List<String>> rows = new ArrayList<>();
     Connection conn = DatabaseConnection.getConnection();
 
     try {
       Statement statement = conn.createStatement();
-      ResultSet dbWeapon = statement.executeQuery("SELECT brand, model, caliber, price, amount FROM weapons");
-      StringBuilder weaponData = new StringBuilder();
+      ResultSet dbWeapon = statement.executeQuery("SELECT brand, model, caliber, price, amount, type FROM weapons");
       while (true) {
         assert dbWeapon != null;
         if (!dbWeapon.next()) break;
@@ -50,9 +65,10 @@ public class Utils {
         String caliber = dbWeapon.getString("caliber");
         String price = dbWeapon.getString("price");
         String amount = dbWeapon.getString("amount");
-        weaponData.append("- ").append(brand).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append("pcs. \n");
+        String type = dbWeapon.getString("type");
+        rows.add(List.of(brand, model, caliber, type, price, amount));
       }
-      return weaponData.toString();
+      return TableFormatter.newTable(headers, rows);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -84,6 +100,7 @@ public class Utils {
   }
 
   public static boolean loginUser(String username, String password) {
+    setUserLogin(username);
     try {
       Connection conn = DatabaseConnection.getConnection();
 
@@ -109,7 +126,7 @@ public class Utils {
   public static void displayUserTransactions(String username) {
     String transactions = getUserTransactions(username);
     titleDivider("TRANSACTIONS");
-    System.out.println(transactions != null ? transactions : "No transactions found");
+    Utils.print(transactions != null ? transactions : "No transactions found");
   }
 
   public static String getUserTransactions(String username) {
@@ -152,11 +169,7 @@ public class Utils {
   }
 
   public static void titleDivider(String title) {
-    System.out.println("--------| " + title + " |--------");
-  }
-
-  public static void optionDivider() {
-      System.out.println("---------------------------");
+    Utils.print("--------| " + title + " |--------");
   }
 
   public static String toSHA256(String data) {
