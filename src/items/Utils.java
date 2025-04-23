@@ -1,18 +1,11 @@
 package items;
 
 import utils.DatabaseConnection;
+import utils.TableFormatter;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
 
@@ -32,13 +25,14 @@ public class Utils {
   }
 
   public static String getProducts() {
-    Utils.print("Brand | Model | Price | Amount");
     Connection conn = DatabaseConnection.getConnection();
+
+    List<String> headers = List.of("Brand", "Name", "Price", "Amount");
+    List<List<String>> rows = new ArrayList<>();
 
     try {
       Statement statement = conn.createStatement();
       ResultSet dbProducts = statement.executeQuery("SELECT name, brand, price, amount FROM products");
-      StringBuilder productsData = new StringBuilder();
       while (true) {
         assert dbProducts != null;
         if (!dbProducts.next()) break;
@@ -46,9 +40,9 @@ public class Utils {
         String brand = dbProducts.getString("brand");
         String price = dbProducts.getString("price");
         String amount = dbProducts.getString("amount");
-        productsData.append("- ").append(brand).append(" | ").append(name).append(" | ").append(price).append("$ | ").append(amount).append("pcs. \n");
+        rows.add(List.of(brand, name, price, amount));
       }
-      return productsData.toString();
+      return TableFormatter.newTable(headers, rows);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -56,13 +50,13 @@ public class Utils {
   }
 
   public static String getWeapon() {
-    Utils.print("Brand | Model | Caliber | Price | Amount");
+    List<String> headers = List.of("Brand", "Model", "Caliber", "Type", "Price", "Amount");
+    List<List<String>> rows = new ArrayList<>();
     Connection conn = DatabaseConnection.getConnection();
 
     try {
       Statement statement = conn.createStatement();
       ResultSet dbWeapon = statement.executeQuery("SELECT brand, model, caliber, price, amount, type FROM weapons");
-      StringBuilder weaponData = new StringBuilder();
       while (true) {
         assert dbWeapon != null;
         if (!dbWeapon.next()) break;
@@ -72,13 +66,9 @@ public class Utils {
         String price = dbWeapon.getString("price");
         String amount = dbWeapon.getString("amount");
         String type = dbWeapon.getString("type");
-        if (type.equals("ICBM")) {
-          weaponData.append("- ").append(brand).append(" ").append(type).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append(" missile silos\n");
-        } else {
-          weaponData.append("- ").append(brand).append(" | ").append(model).append(" | ").append(caliber).append(" | ").append(price).append("$ | ").append(amount).append("pcs.\n");
-        }
+        rows.add(List.of(brand, model, caliber, type, price, amount));
       }
-      return weaponData.toString();
+      return TableFormatter.newTable(headers, rows);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -180,10 +170,6 @@ public class Utils {
 
   public static void titleDivider(String title) {
     Utils.print("--------| " + title + " |--------");
-  }
-
-  public static void optionDivider() {
-      Utils.print("---------------------------");
   }
 
   public static String toSHA256(String data) {
