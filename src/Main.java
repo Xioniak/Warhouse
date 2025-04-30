@@ -1,20 +1,12 @@
-import items.Instalator;
-import items.Item;
-import items.WeaponType;
-import items.pistol;
 import items.Utils;
 import utils.ICBM;
 import utils.Menu;
 
-import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static ArrayList<Item> items = Instalator.items;
     public static String globalLogin;
 
     /**
